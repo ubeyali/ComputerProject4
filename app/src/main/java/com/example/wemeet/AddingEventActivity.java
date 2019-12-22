@@ -11,6 +11,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
 
 public class AddingEventActivity extends AppCompatActivity implements View.OnClickListener {
@@ -20,6 +23,8 @@ public class AddingEventActivity extends AppCompatActivity implements View.OnCli
     EditText txtDate, txtTime;
     EditText txtTitle,txtLocation;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    DatabaseReference myRef;
+    FirebaseDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +44,7 @@ public class AddingEventActivity extends AppCompatActivity implements View.OnCli
         txtTime=(EditText)findViewById(R.id.in_time);
         txtLocation=(EditText)findViewById(R.id.locationEditText);
         txtTitle=(EditText)findViewById(R.id.titleEditText);
+        database = FirebaseDatabase.getInstance();
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +54,10 @@ public class AddingEventActivity extends AppCompatActivity implements View.OnCli
                 event.setLocation(txtLocation.getText().toString());
                 event.setDate(txtDate.getText().toString());
                 event.setTime(txtTime.getText().toString());
+                myRef = database.getReference("Events/"+event.getTitle());
+
+                myRef.setValue(event);
+
             }
         });
     }

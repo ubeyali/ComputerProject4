@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "45572225954",
+    "firebase_url": "https://computerproject4-6895c.firebaseio.com",
+    "project_id": "computerproject4-6895c",
+    "storage_bucket": "computerproject4-6895c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45572225954:android:798e11126307510c8c90fb",
+        "android_client_info": {
+          "package_name": "com.example.wemeet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45572225954-stuh9l206ro0feitfi3576tfcmj0l6ek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5rSeFl0oY_tWkT6fnkdtjQR_5rEHYI8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45572225954-stuh9l206ro0feitfi3576tfcmj0l6ek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

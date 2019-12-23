@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "45572225954-9mh4e3kns1h7b0dnm8e0vk63kds6o18s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wemeet",
+            "certificate_hash": "f3676fc2f118113af5d88a058f6dc0908481cac9"
+          }
+        },
+        {
           "client_id": "45572225954-stuh9l206ro0feitfi3576tfcmj0l6ek.apps.googleusercontent.com",
           "client_type": 3
         }

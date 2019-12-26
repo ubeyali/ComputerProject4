@@ -77,7 +77,7 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
                     searchList.addAll(user.getFriendList());
                 }
                 mDatabase.collection("events")
-                        .whereEqualTo("owner", userRef)
+                        .whereIn("owner", searchList)
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {

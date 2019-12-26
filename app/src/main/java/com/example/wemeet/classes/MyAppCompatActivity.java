@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.storage.FirebaseStorage;
 
 import androidx.annotation.Nullable;
@@ -24,6 +25,10 @@ public class MyAppCompatActivity extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance();
         mUser = mAuth.getCurrentUser();
         mDatabase = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        mDatabase.setFirestoreSettings(settings);
     }
 
 }

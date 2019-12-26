@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.RegistrationActivity"></activity>
+        <activity android:name=".ui.ConversationActivity"></activity>
+        <activity android:name=".ui.RegistrationActivity" />
         <activity android:name=".ui.FriendFinderActivity" />
         <activity android:name=".ui.AddEventActivity" />
         <activity android:name=".ui.LoginActivity" />

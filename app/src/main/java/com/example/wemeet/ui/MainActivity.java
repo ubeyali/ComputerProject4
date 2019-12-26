@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends MyAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -65,28 +66,31 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
         final EventsAdapter eventsAdapter = new EventsAdapter(getApplicationContext(), events);
         eventRecyclerView.setAdapter(eventsAdapter);
 
-        DocumentReference userRef = mDatabase.collection("users").document(mUser.getUid());
+        final DocumentReference userRef = mDatabase.collection("users").document(mUser.getUid());
         userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 user = documentSnapshot.toObject(User.class);
+                List<DocumentReference> searchList = new ArrayList<>();
+                searchList.add(userRef);
                 if(user.getFriendList() != null && user.getFriendList().size() > 0) {
-                    mDatabase.collection("events")
-                            .whereIn("owner", user.getFriendList())
-                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                    events.clear();
-                                    if(queryDocumentSnapshots != null){
-                                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                            final Event event = documentSnapshot.toObject(Event.class);
-                                            events.add(event);
-                                            eventsAdapter.notifyDataSetChanged();
-                                        }
+                    searchList.addAll(user.getFriendList());
+                }
+                mDatabase.collection("events")
+                        .whereEqualTo("owner", userRef)
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                events.clear();
+                                if(queryDocumentSnapshots != null){
+                                    for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                        final Event event = documentSnapshot.toObject(Event.class);
+                                        events.add(event);
+                                        eventsAdapter.notifyDataSetChanged();
                                     }
                                 }
-                            });
-                }
+                            }
+                        });
             }
         });
 

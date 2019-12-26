@@ -95,10 +95,10 @@ public class RegistrationActivity extends MyAppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Event event = documentSnapshot.toObject(Event.class);
-                            HashMap<String, List<String>> registrations = event.getRegistrations();
+                            HashMap<String, List<DocumentReference>> registrations = event.getRegistrations();
                             if (registrations == null) registrations = new HashMap<>();
-                            if(registrations.get(strDate) == null) registrations.put(strDate, new ArrayList<String>());
-                            registrations.get(strDate).add(user.getUserID());
+                            if(registrations.get(strDate) == null) registrations.put(strDate, new ArrayList<DocumentReference>());
+                            registrations.get(strDate).add(userRef);
                             event.setRegistrations(registrations);
                             eventRef.set(event);
 

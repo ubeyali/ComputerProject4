@@ -10,21 +10,29 @@ public class Event {
     private String title;
     private String location;
     private String eventID;
+    private DocumentReference conversationReference;
     private List<Date> dateTimeList;
-    private HashMap<String, List<String>> registrations;
+    private HashMap<String, List<DocumentReference>> registrations;
     private DocumentReference owner;
     private int invitedCount;
-    private int messageCount;
 
 
     public Event(){}
 
-    public HashMap<String, List<String>> getRegistrations() {
+    public HashMap<String, List<DocumentReference>> getRegistrations() {
         return registrations;
     }
 
-    public void setRegistrations(HashMap<String, List<String>> registrations) {
+    public void setRegistrations(HashMap<String, List<DocumentReference>> registrations) {
         this.registrations = registrations;
+    }
+
+    public DocumentReference getConversationReference() {
+        return conversationReference;
+    }
+
+    public void setConversationReference(DocumentReference conversationReference) {
+        this.conversationReference = conversationReference;
     }
 
     public DocumentReference getOwner() {
@@ -41,14 +49,6 @@ public class Event {
 
     public void setInvitedCount(int invitedCount) {
         this.invitedCount = invitedCount;
-    }
-
-    public int getMessageCount() {
-        return messageCount;
-    }
-
-    public void setMessageCount(int messageCount) {
-        this.messageCount = messageCount;
     }
 
     public String getTitle() {

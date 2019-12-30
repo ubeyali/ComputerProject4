@@ -89,8 +89,11 @@ public class AddEventActivity extends MyAppCompatActivity {
         eventRef.set(event);
 
         Toast.makeText(getApplicationContext(), "Event created", Toast.LENGTH_SHORT).show();
-        finish();
 
+        finish();
+        Intent intent=new Intent(AddEventActivity.this,ShareActivity.class);
+
+        startActivity(intent);
     }
 
     public void onDateClick(View view) {

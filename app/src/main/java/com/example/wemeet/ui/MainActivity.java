@@ -3,6 +3,8 @@ package com.example.wemeet.ui;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +36,8 @@ import java.util.List;
 public class MainActivity extends MyAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView eventRecyclerView;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
     private User user;
 
     @Override
@@ -45,7 +49,9 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
         setSupportActionBar(toolbar);
 
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        eventRecyclerView = findViewById(R.id.eventRecyclerView);
         navigationView.setNavigationItemSelectedListener(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -60,7 +66,6 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
 
 
 
-        eventRecyclerView = findViewById(R.id.eventRecyclerView);
         final ArrayList<Event> events = new ArrayList<>();
 
         final EventsAdapter eventsAdapter = new EventsAdapter(getApplicationContext(), events);
@@ -122,11 +127,12 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.nav_events:
-
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_search:
                 Intent intent = new Intent(getApplicationContext(), FriendFinderActivity.class);
                 startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_settings:
                 break;

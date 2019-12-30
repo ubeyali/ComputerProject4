@@ -133,6 +133,9 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
                     finish();
                 }
             });
+        }else if(item.getItemId() == R.id.action_profile){
+            Intent intent=new Intent(MainActivity.this,SettingsActivity.class);
+            startActivity(intent);
         }
 
         return true;

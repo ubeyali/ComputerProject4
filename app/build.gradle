@@ -41,6 +41,7 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
+    implementation 'androidx.preference:preference:1.1.0-alpha05'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
 

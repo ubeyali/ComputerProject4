@@ -40,7 +40,7 @@ public class AddEventActivity extends MyAppCompatActivity {
 
         timeStartEditText = findViewById(R.id.timeStartEditText);
         durationEditText = findViewById(R.id.durationEditText);
-        eventNameEditText = findViewById(R.id.eventNameEditText);
+        eventNameEditText = findViewById(R.id.eventNameTextView);
         dateEditText = findViewById(R.id.dateEditText);
         locationEditText = findViewById(R.id.locationEditText);
     }

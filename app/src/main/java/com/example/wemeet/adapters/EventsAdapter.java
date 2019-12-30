@@ -13,6 +13,7 @@ import com.example.wemeet.classes.Conversation;
 import com.example.wemeet.classes.Event;
 import com.example.wemeet.classes.User;
 import com.example.wemeet.ui.ConversationActivity;
+import com.example.wemeet.ui.EventDetailsActivity;
 import com.example.wemeet.ui.RegistrationActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -151,7 +152,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
         public void onClick(View v) {
             int position = getAdapterPosition();
             String selectedEventID = eventArrayList.get(position).getEventID();
-            Intent intent = new Intent(context, RegistrationActivity.class);
+            Intent intent = new Intent(context, EventDetailsActivity.class);
             intent.putExtra("eventID", selectedEventID);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
             context.startActivity(intent);

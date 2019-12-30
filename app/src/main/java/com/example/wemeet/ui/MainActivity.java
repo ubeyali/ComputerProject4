@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.wemeet.R;
 import com.example.wemeet.adapters.EventsAdapter;
 import com.example.wemeet.classes.Event;
@@ -37,6 +39,7 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
 
     private RecyclerView eventRecyclerView;
     private NavigationView navigationView;
+    private FloatingActionButton fab;
     private DrawerLayout drawerLayout;
     private User user;
 
@@ -52,9 +55,8 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
         eventRecyclerView = findViewById(R.id.eventRecyclerView);
-        navigationView.setNavigationItemSelectedListener(this);
+        fab = findViewById(R.id.fab);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +66,7 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
             }
         });
 
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         final ArrayList<Event> events = new ArrayList<>();
@@ -76,6 +79,18 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 user = documentSnapshot.toObject(User.class);
+
+
+                TextView nameTextView = navigationView.getHeaderView(0).findViewById(R.id.nameTextView);
+                TextView emailTextView = navigationView.getHeaderView(0).findViewById(R.id.emailTextView);
+                de.hdodenhof.circleimageview.CircleImageView profileImageView = navigationView.getHeaderView(0).findViewById(R.id.profileImageView);
+
+                nameTextView.setText(user.getDisplayName());
+                emailTextView.setText(user.getEmail());
+                Glide.with(profileImageView)
+                        .load(user.getProfilePictureURL())
+                        .into(profileImageView);
+
                 List<DocumentReference> searchList = new ArrayList<>();
                 searchList.add(userRef);
                 if(user.getFriendList() != null && user.getFriendList().size() > 0) {
@@ -130,11 +145,14 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_search:
-                Intent intent = new Intent(getApplicationContext(), FriendFinderActivity.class);
-                startActivity(intent);
+                Intent friendsIntent = new Intent(getApplicationContext(), FriendFinderActivity.class);
+                startActivity(friendsIntent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_settings:
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             default:
                 break;

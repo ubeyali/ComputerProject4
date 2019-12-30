@@ -32,6 +32,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     private ArrayList<Message> messages;
     private HashMap<String, Bitmap> profileImages;
+    private HashMap<String, User> userList;
     private String userID;
 
     private LayoutInflater inflater;
@@ -43,6 +44,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         this.context = context;
         this.userID = userID;
         profileImages = new HashMap<>();
+        userList = new HashMap<>();
     }
 
 
@@ -82,15 +84,18 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             this.receiverImageView.setVisibility(View.GONE);
             this.senderImageView.setVisibility(View.GONE);
 
-            String senderID = message.getSenderRef().getId();
+            final String senderID = message.getSenderRef().getId();
             this.contentTextView.setText(message.getContent());
-            if(profileImages.containsKey(senderID)){
+            if(userList.containsKey(senderID)){
                 setImage(senderID, profileImages.get(senderID));
+                nameTextView.setText(userList.get(senderID).getDisplayName());
             } else {
                 message.getSenderRef().get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         final User user = documentSnapshot.toObject(User.class);
+                        userList.put(senderID, user);
+                        nameTextView.setText(user.getDisplayName());
                         Glide.with(context)
                                 .asBitmap()
                                 .load(user.getProfilePictureURL())

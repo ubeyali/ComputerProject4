@@ -28,7 +28,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="Selim Enes Kılıçaslan"/>
+            android:text="Selim Enes Kılıçaslan"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold|italic" />
 
         <TextView
             android:id="@+id/contentTextView"

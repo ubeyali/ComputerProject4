@@ -50,30 +50,39 @@ public class AddEventActivity extends MyAppCompatActivity {
     }
 
     public void onCreateButtonClick(View view) {
+        Boolean labelesCheck=true;
+        List<Date> convertedDates = null;
         if(!dateSelected) {
+            labelesCheck=false;
             Toast.makeText(getApplicationContext(), "Please select dates", Toast.LENGTH_SHORT).show();
         }
         if(!timeSelected) {
-            Toast.makeText(getApplicationContext(), "Please select time", Toast.LENGTH_SHORT).show();
+            labelesCheck=false;
+            Toast.makeText(getApplicationContext(), "Please select time", Toast.LENGTH_SHORT).show();}
+        else {
+            convertedDates = new ArrayList<>();
+
+            for(Date date : dateList){
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+
+                c.add(Calendar.HOUR, selectedHour);
+                c.add(Calendar.MINUTE, selectedMinute);
+
+                date = c.getTime();
+                convertedDates.add(date);
+            }
         }
         if(locationEditText.getText().toString().equals("")) {
+            labelesCheck=false;
             Toast.makeText(getApplicationContext(), "Please select a location", Toast.LENGTH_SHORT).show();
         }
         if(eventNameEditText.getText().toString().equals("")) {
+            labelesCheck=false;
             Toast.makeText(getApplicationContext(), "Please select a title", Toast.LENGTH_SHORT).show();
         }
 
-        List<Date> convertedDates = new ArrayList<>();
-        for(Date date : dateList){
-            Calendar c = Calendar.getInstance();
-            c.setTime(date);
 
-            c.add(Calendar.HOUR, selectedHour);
-            c.add(Calendar.MINUTE, selectedMinute);
-
-            date = c.getTime();
-            convertedDates.add(date);
-        }
         DocumentReference userRef = mDatabase.collection("users").document(mUser.getUid());
         String eventID = UUID.randomUUID().toString();
 
@@ -88,12 +97,12 @@ public class AddEventActivity extends MyAppCompatActivity {
         DocumentReference eventRef = mDatabase.collection("events").document(eventID);
         eventRef.set(event);
 
-        Toast.makeText(getApplicationContext(), "Event created", Toast.LENGTH_SHORT).show();
-
-        finish();
-        Intent intent=new Intent(AddEventActivity.this,ShareActivity.class);
-
-        startActivity(intent);
+        if(labelesCheck){
+           Toast.makeText(getApplicationContext(), "Event created", Toast.LENGTH_SHORT).show();
+            finish();
+            Intent intent = new Intent(AddEventActivity.this, ShareActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void onDateClick(View view) {

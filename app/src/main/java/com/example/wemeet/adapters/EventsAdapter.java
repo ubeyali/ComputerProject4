@@ -23,7 +23,12 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import androidx.annotation.Nullable;
@@ -82,8 +87,25 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
         public void setData(final Event event, int position) {
 
             this.eventNameTextView.setText(event.getTitle());
-            this.lastActivityTextView.setText("27 min");
-            String peopleText = String.format("You and %d others", event.getInvitedCount() - 1);
+            this.lastActivityTextView.setText("");
+            HashMap<String, Boolean> peopleCount = new HashMap<>();
+            for(Date date : event.getDateTimeList()){
+                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+                final String strDate = dateFormat.format(date);
+                if(event.getRegistrations() != null && event.getRegistrations().containsKey(strDate)){
+                    for(DocumentReference reference : event.getRegistrations().get(strDate)){
+                        peopleCount.put(reference.getId(), true);
+                    }
+                }
+            }
+            String peopleText;
+            if(peopleCount.size() > 1){
+                peopleText = String.format("You and %d others", peopleCount.size() - 1);
+            } else if(peopleCount.size() == 1) {
+                peopleText = "You";
+            } else {
+                peopleText = "No registrations";
+            }
             this.peopleTextView.setText(peopleText);
             if(event.getConversationReference() == null) {
                 chatTextView.setText(String.valueOf(0));

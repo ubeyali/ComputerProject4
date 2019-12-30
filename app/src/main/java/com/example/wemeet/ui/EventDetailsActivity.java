@@ -89,6 +89,15 @@ public class EventDetailsActivity extends MyAppCompatActivity {
                                     updateButton.setClickable(true);
                                 }
                             }
+                        } else {
+                            for(Date date : dateArrayList){
+                                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+                                String strDate = dateFormat.format(date);
+                                dateHashMap.put(strDate, false);
+                                if(dateHashMap.size() == dateArrayList.size()){
+                                    updateButton.setClickable(true);
+                                }
+                            }
                         }
                         registrationAdapter = new RegistrationAdapter(getApplicationContext(), dateArrayList, dateHashMap);
                         datesRecyclerView.setAdapter(registrationAdapter);

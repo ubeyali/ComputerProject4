@@ -77,6 +77,10 @@ public class EventOwnerActivity extends MyAppCompatActivity {
                             }
                         });
                     }
+                } else {
+                    ArrayList<String> children = new ArrayList<>();
+                    children.add("No registrations");
+                    listDataChild.put(header, children);
                 }
             } else {
                 ArrayList<String> children = new ArrayList<>();

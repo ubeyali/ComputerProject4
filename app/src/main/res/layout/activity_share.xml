@@ -4,8 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.FriendFinderActivity">
+    tools:context=".ui.ShareActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnNoFriend"
+        android:visibility="gone"
+        android:onClick="btnAddFriendonClick"
+        android:src="@drawable/nofriend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/usersRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/usersRecyclerView"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"

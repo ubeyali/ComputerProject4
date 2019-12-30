@@ -1,18 +1,15 @@
 package com.example.wemeet.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.wemeet.R;
-import com.example.wemeet.adapters.UsersAdapter;
 import com.example.wemeet.adapters.UsersShareAdapter;
 import com.example.wemeet.classes.MyAppCompatActivity;
 import com.example.wemeet.classes.User;
@@ -34,11 +31,11 @@ public class ShareActivity extends MyAppCompatActivity {
     User user;
     ArrayList<User> users;
     DocumentReference userRef;
-    DocumentReference userRef1;
 
     UsersShareAdapter mAdapter;
     RecyclerView recyclerView;
 
+    ImageView btnNoFriend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +45,7 @@ public class ShareActivity extends MyAppCompatActivity {
         userRef = mDatabase.collection("users").document(mUser.getUid());
 
         recyclerView = findViewById(R.id.usersRecyclerView);
-
+        btnNoFriend =findViewById(R.id.btnNoFriend);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -65,11 +62,14 @@ public class ShareActivity extends MyAppCompatActivity {
                 if(user.getFriendList() != null && user.getFriendList().size() > 0) {
                     friendList.addAll(user.getFriendList());
                 }
+                if(friendList.size()==0){
+                    btnNoFriend.setVisibility(View.VISIBLE);
+                }else {
+                    btnNoFriend.setVisibility(View.INVISIBLE);
+
+                }
              //
                 //
-                mDatabase.collection(friendList.get(0).get().toString());
-                Task<DocumentSnapshot> s=friendList.get(0).get();
-                userRef1 = mDatabase.collection(String.valueOf(s)).document(mUser.getUid());
 
                 mDatabase.collection("users")
                         .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -125,6 +125,13 @@ public class ShareActivity extends MyAppCompatActivity {
                 .send();
     }
     public void btnDoneonClik(View view) {
+        finish();
+    }
+
+    public void btnAddFriendonClick(View view) {
+
+        Intent intent =new Intent(ShareActivity.this,FriendFinderActivity.class);
+        startActivity(intent);
         finish();
     }
 }

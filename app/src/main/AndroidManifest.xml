@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.EventDetailsActivity"></activity>
+        <activity android:name=".ui.EventOwnerActivity"></activity>
+        <activity android:name=".ui.EventDetailsActivity" />
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings" />
@@ -32,9 +33,7 @@
         </activity>
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.DatePickerActivity" />
-        <activity android:name=".ui.ShareActivity">
-
-        </activity>
+        <activity android:name=".ui.ShareActivity"></activity>
     </application>
 
 </manifest>

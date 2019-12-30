@@ -71,7 +71,7 @@ public class MainActivity extends MyAppCompatActivity implements NavigationView.
 
         final ArrayList<Event> events = new ArrayList<>();
 
-        final EventsAdapter eventsAdapter = new EventsAdapter(getApplicationContext(), events);
+        final EventsAdapter eventsAdapter = new EventsAdapter(getApplicationContext(), events, mUser.getUid());
         eventRecyclerView.setAdapter(eventsAdapter);
 
         final DocumentReference userRef = mDatabase.collection("users").document(mUser.getUid());

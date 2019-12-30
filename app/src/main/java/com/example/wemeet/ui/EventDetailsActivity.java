@@ -2,6 +2,7 @@ package com.example.wemeet.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class EventDetailsActivity extends MyAppCompatActivity {
     private String eventID;
 
     private TextView eventNameTextView, locationTextView, peopleTextView;
+    private Button updateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +53,12 @@ public class EventDetailsActivity extends MyAppCompatActivity {
         eventNameTextView = findViewById(R.id.eventNameTextView);
         locationTextView = findViewById(R.id.locationTextView);
         peopleTextView = findViewById(R.id.peopleTextView);
+        updateButton = findViewById(R.id.updateButton);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         dateHashMap = new HashMap<>();
+        updateButton.setClickable(false);
 
 
         userRef = mDatabase.collection("users").document(mUser.getUid());
@@ -72,10 +76,18 @@ public class EventDetailsActivity extends MyAppCompatActivity {
                         peopleTextView.setText(String.valueOf(event.getInvitedCount()));
                         dateArrayList = event.getDateTimeList();
                         if(user.getRegistrations() != null && user.getRegistrations().containsKey(eventID)){
-                            for(Date date : user.getRegistrations().get(eventID)) {
+                            for(Date date : dateArrayList){
                                 DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
                                 String strDate = dateFormat.format(date);
-                                dateHashMap.put(strDate, true);
+
+                                if(user.getRegistrations().get(eventID).contains(date)){
+                                    dateHashMap.put(strDate, true);
+                                } else {
+                                    dateHashMap.put(strDate, false);
+                                }
+                                if(dateHashMap.size() == dateArrayList.size()){
+                                    updateButton.setClickable(true);
+                                }
                             }
                         }
                         registrationAdapter = new RegistrationAdapter(getApplicationContext(), dateArrayList, dateHashMap);
@@ -102,6 +114,7 @@ public class EventDetailsActivity extends MyAppCompatActivity {
         for(Date date : dateArrayList) {
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
             String strDate = dateFormat.format(date);
+            if(dateHashMap == null) dateHashMap = new HashMap<>();
             if(dateHashMap.get(strDate)){
                 userRegistrations.add(date);
             }
@@ -112,30 +125,29 @@ public class EventDetailsActivity extends MyAppCompatActivity {
         user.setRegistrations(registrations);
         userRef.set(user);
 
-        for(int i = 0; i < dateArrayList.size(); i++){
-            try {
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-                final String strDate = dateFormat.format(dateArrayList.get(i));
-                if(dateHashMap.get(strDate)){
-                    final int cnt = i;
-                    eventRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Event event = documentSnapshot.toObject(Event.class);
-                            HashMap<String, List<DocumentReference>> registrations = event.getRegistrations();
-                            if (registrations == null) registrations = new HashMap<>();
-                            if(registrations.get(strDate) == null) registrations.put(strDate, new ArrayList<DocumentReference>());
-                            if(!registrations.get(strDate).contains(userRef)) registrations.get(strDate).add(userRef);
-                            event.setRegistrations(registrations);
-                            eventRef.set(event);
+        eventRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Event event =  documentSnapshot.toObject(Event.class);
+                HashMap<String, List<DocumentReference>> registrations = event.getRegistrations();
+                if (registrations == null) registrations = new HashMap<>();
 
-                        }
-                    });
+                for(Date date : dateArrayList) {
+                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+                    String strDate = dateFormat.format(date);
+                    if(dateHashMap == null) dateHashMap = new HashMap<>();
+                    if(dateHashMap.get(strDate)){
+                        if(registrations.get(strDate) == null) registrations.put(strDate, new ArrayList<DocumentReference>());
+                        List<DocumentReference> references = registrations.get(strDate);
+                        references.add(userRef);
+                        registrations.put(strDate, references);
+                        event.setRegistrations(registrations);
+                    }
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                eventRef.set(event);
             }
-        }
+        });
+
         Toast.makeText(getApplicationContext(), "Registered", Toast.LENGTH_SHORT).show();
     }
 

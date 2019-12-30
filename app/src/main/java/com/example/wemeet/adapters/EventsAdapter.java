@@ -14,6 +14,7 @@ import com.example.wemeet.classes.Event;
 import com.example.wemeet.classes.User;
 import com.example.wemeet.ui.ConversationActivity;
 import com.example.wemeet.ui.EventDetailsActivity;
+import com.example.wemeet.ui.EventOwnerActivity;
 import com.example.wemeet.ui.RegistrationActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,14 +31,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHolder> {
 
-    ArrayList<Event> eventArrayList;
-    LayoutInflater inflater;
-    Context context;
+    private ArrayList<Event> eventArrayList;
+    private String userID;
+    private LayoutInflater inflater;
+    private Context context;
 
-    public EventsAdapter(Context context, ArrayList<Event> eventArrayList) {
+    public EventsAdapter(Context context, ArrayList<Event> eventArrayList, String userID) {
         inflater = LayoutInflater.from(context);
         this.eventArrayList = eventArrayList;
         this.context = context;
+        this.userID = userID;
     }
 
 
@@ -151,8 +154,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            String selectedEventID = eventArrayList.get(position).getEventID();
-            Intent intent = new Intent(context, EventDetailsActivity.class);
+            Event selectedEvent = eventArrayList.get(position);
+            String selectedEventID = selectedEvent.getEventID();
+            Intent intent;
+            if(selectedEvent.getOwner().getId().equals(userID)){
+                intent = new Intent(context, EventOwnerActivity.class);
+            } else {
+                intent = new Intent(context, EventDetailsActivity.class);
+            }
             intent.putExtra("eventID", selectedEventID);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
             context.startActivity(intent);

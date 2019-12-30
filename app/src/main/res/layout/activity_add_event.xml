@@ -203,6 +203,7 @@
 
     <EditText
         android:id="@+id/durationEditText"
+        android:visibility="gone"
         style="@style/Base.Widget.MaterialComponents.TextInputEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

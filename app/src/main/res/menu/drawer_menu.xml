@@ -19,14 +19,4 @@
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="Settings" />
     </group>
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_info"
-            android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="About" />
-        <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Share" />
-    </group>
 </menu>

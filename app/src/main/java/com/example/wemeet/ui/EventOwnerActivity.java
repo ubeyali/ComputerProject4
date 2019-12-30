@@ -5,7 +5,7 @@ import android.widget.ExpandableListView;
 
 import com.example.wemeet.R;
 import com.example.wemeet.classes.Event;
-import com.example.wemeet.classes.ExpandableListAdapter;
+import com.example.wemeet.adapters.ExpandableListAdapter;
 import com.example.wemeet.classes.MyAppCompatActivity;
 import com.example.wemeet.classes.User;
 import com.google.android.gms.tasks.OnSuccessListener;
